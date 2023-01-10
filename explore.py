@@ -2,8 +2,9 @@ import altair as alt
 import numpy as np
 import pandas as pd
 import streamlit as st
+
+from barebones import run
 from exp_def import initial_config, ranges, run_exp
-from insilicho import run
 
 pd.options.mode.chained_assignment = None  # default='warn'
 

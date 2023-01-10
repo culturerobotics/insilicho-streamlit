@@ -1,4 +1,4 @@
-from insilicho import run
+from barebones import run
 
 initial_config = {
     "parameters": {
