@@ -54,7 +54,11 @@ with st.sidebar:
             "V (mL)", 10.0, 150.0, 20.0, help="Starting volume in the reactor"
         )
         Xv = st.slider(
-            "Xv (Mcells/mL)", 1e-4, 15.0, 0.01, help="Starting cell concentration"
+            "Xv (Mcells/mL)",
+            min_value=0.01,
+            max_value=10.0,
+            value=0.25,
+            help="Starting cell concentration",
         )
 
     with st.expander("Control", expanded=False):
@@ -65,28 +69,28 @@ with st.sidebar:
             else:
                 step = 0.01
             try:
-                help = ranges[key][3]
+                help_text = ranges[key][4]
             except IndexError:
-                help = ""
+                help_text = ""
             sliders[key] = st.slider(
-                key,
+                key + "(" + ranges[key][3] + ")",
                 min_value=float(ranges[key][0]),
                 max_value=float(ranges[key][1]),
                 value=float(ranges[key][2]),
                 step=step,
                 format="%f",
-                help=help,
+                help=help_text,
             )
 
     with st.expander("Model params", expanded=False):
-        mu_max = st.slider("mu_max (1/hr)", 0.01, 1.0, 0.043, help="Cell growth rate")
+        mu_max = st.slider("mu_max (1/hr)", 0.0, 0.2, 0.043, help="Cell growth rate")
         mu_d_max = st.slider(
-            "mu_d_max (1/hr)", 0.01, 0.1, 0.06, help="Max cell death rate"
+            "mu_d_max (1/hr)", 0.01, 1.0, 0.06, help="Max cell death rate"
         )
         mu_d_min = st.slider(
             "mu_d_min (1/hr)",
             0e1,
-            1e-2,
+            1e-1,
             1e-3,
             step=1e-4,
             format="%f",
@@ -96,7 +100,7 @@ with st.sidebar:
         q_mab = st.slider(
             "q_mab (pico-gram/cell/hr)",
             0.01,
-            100.0,
+            1.0,
             0.312,
             help="q-rate for mAb production, per cell basis",
         )
@@ -119,14 +123,14 @@ with st.sidebar:
         Y_amm_gln = st.slider(
             "Y_amm_gln",
             0.0,
-            2.0,
+            20.0,
             0.9,
             help="stoichimoetric yield coefficient b/w ammonia pproduction and glutamine consumption",
         )
         Y_lac_glc = st.slider(
             "Y_lac_glc",
             0.0,
-            2.0,
+            20.0,
             0.25,
             help="stoichimoetric yield coefficient b/w lactate production and glucose consumption",
         )
@@ -163,7 +167,6 @@ model_instance = run.GrowCHO(
     param_rel_stddev=0,
 )
 
-
 # Run model with these settings.
 sampling_data, score = run_exp(
     sliders,
@@ -179,9 +182,9 @@ sampling_df = pd.DataFrame.from_dict(sampling_data)
 # Print titer
 st.text(f"Final Titer [mg/L]: {score:0.1f}")
 
-with st.expander("Groundtruth", expanded=True):
-    if user_data:
-        user_df = pd.read_csv(user_data)
+with st.expander("Model results", expanded=True):
+    user_data = user_data or "example.csv"
+    user_df = pd.read_csv(user_data)
 
     def altair_plot(
         insilicho_name,
@@ -235,13 +238,13 @@ with st.expander("Groundtruth", expanded=True):
                 ymin="datum.mean-1*datum.std", ymax="datum.mean+1*datum.std"
             )
             # generate the error bars
-            errorbars = base.mark_errorbar(color="white", extent="ci").encode(
+            errorbars = base.mark_errorbar(color="blue", extent="ci").encode(
                 x="time",
                 y="ymin:Q",
                 y2="ymax:Q",
             )
             # generate the points
-            points = base.mark_point(filled=True, size=50, color="yellow").encode(
+            points = base.mark_point(filled=True, size=50, color="red").encode(
                 x=alt.X("time", scale=alt.Scale(domain=(0, tmax))),
                 y=alt.Y("mean", scale=alt.Scale(zero=False)),
             )
@@ -253,7 +256,7 @@ with st.expander("Groundtruth", expanded=True):
         )
 
     altair_plot("Xv", "Xv", 1, "Xv [MCells/L]", color="green")
-    altair_plot("Cglc", "C_Glc", 1000 / 180, "Glucose [mM]", color="red")
+    altair_plot("Cglc", "C_Glc", 1000 / 180, "Glucose [mM]", color="orange")
     altair_plot("Cgln", "C_Gln", 1000 / 146.15, "Glutamine [mM]", color="orange")
     altair_plot(
         "Camm", "C_Amm", 1000 / 18.04, "Amm [mM]", color="purple"
@@ -262,17 +265,16 @@ with st.expander("Groundtruth", expanded=True):
         "Clac", "C_Lac", 1000 / 90.08, "Lac [mM]", color="purple"
     )  # Lactate or lactic acid?
     altair_plot(
-        "Cmab", "C_mab", 1, "mAbs [mg/L]", color="white"
+        "Cmab", "C_mab", 1, "mAbs [mg/L]", color="blue"
     )  # TODO: conversion factor for mabs
-    altair_plot("Osmolarity", "Osmolarity", 1, "Osmolarity [mOsm/kg]", color="blue")
-
+    # altair_plot("Osmolarity", "Osmolarity", 1, "Osmolarity [mOsm/kg]", color="blue")
 
 # Show all data.
 with st.expander("Sampled Data", expanded=False):
     st.write(sampling_df)
 
 # Show params.
-with st.expander("Final Params", expanded=False):
+with st.expander("Control Params", expanded=False):
     st.write(sliders)
 
 # Show control.
