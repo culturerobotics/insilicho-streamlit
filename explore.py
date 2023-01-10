@@ -34,8 +34,9 @@ with st.sidebar:
         user_data = st.file_uploader(
             "Data",
             type=["csv"],
-            help="CSV file must be formatted as the example file with the same column names, Glc-> Glucose and Gln->Glutamine. To add error bars, column name ending in '_std' is needed. "
-            "We don't keep a copy of your data in our system. Your data may hit streamlit backend, please see https://discuss.streamlit.io/t/where-does-the-data-go-when-using-file-uploader-when-does-it-get-deleted/8269 for privacy concerns.",
+            help="1. CSV file must be formatted as the example file with the same column names, Glc-> Glucose and Gln->Glutamine. To add error bars, column name ending in '_std' is needed.\n"
+            "2. Data and Model source: Model uncertainty-based evaluation of process strategies during scale-up of biopharmaceutical processes, Moller et al., Computers and Chemical Engineering 134 (2020) 106693\n"
+            "3. Culture Biosciences does not get a copy of your data. Your data may hit streamlit backend, please see https://discuss.streamlit.io/t/where-does-the-data-go-when-using-file-uploader-when-does-it-get-deleted/8269 for privacy concerns.",
         )
 
         # Unit conversion needed for conc of species
