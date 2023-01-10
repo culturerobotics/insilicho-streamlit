@@ -1,5 +1,7 @@
-zinc model explorer, with streamlit
+Insilicho model explorer, with streamlit
 
+### Cloud
+https://culturebio-insilicho.streamlit.app/
 
 ### local setup
 
