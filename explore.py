@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-sys.path.append("../barebones")
+sys.path.append("barebones")
 from barebones import run
 from exp_def import initial_config, ranges, run_exp
 
@@ -53,7 +53,9 @@ with st.sidebar:
         V = st.slider(
             "V (mL)", 10.0, 150.0, 20.0, help="Starting volume in the reactor"
         )
-        Xv = st.slider("Xv (Mcells/mL)", 1e-3, 15.0, help="Starting cell concentration")
+        Xv = st.slider(
+            "Xv (Mcells/mL)", 1e-4, 15.0, 0.01, help="Starting cell concentration"
+        )
 
     with st.expander("Control", expanded=False):
         sliders = {}
