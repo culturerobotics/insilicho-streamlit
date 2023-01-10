@@ -1,3 +1,6 @@
+import sys
+
+sys.path.append("../barebones")
 from barebones import run
 
 initial_config = {
