@@ -1,5 +1,9 @@
 Insilicho model explorer, with streamlit
 
+### Model
+https://github.com/culturerobotics/insilicho
+
+
 ### Cloud
 https://culturebio-insilicho.streamlit.app/
 
