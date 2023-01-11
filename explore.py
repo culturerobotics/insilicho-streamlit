@@ -126,14 +126,14 @@ with st.sidebar:
             0.0,
             20.0,
             0.9,
-            help="stoichimoetric yield coefficient b/w ammonia pproduction and glutamine consumption",
+            help="stoichiometric yield coefficient b/w ammonia production and glutamine consumption",
         )
         Y_lac_glc = st.slider(
             "Y_lac_glc",
             0.0,
             20.0,
             0.25,
-            help="stoichimoetric yield coefficient b/w lactate production and glucose consumption",
+            help="stoichiometric yield coefficient b/w lactate production and glucose consumption",
         )
 
 # Convert feed into correct units
