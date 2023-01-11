@@ -1,6 +1,3 @@
-import sys
-
-sys.path.append("insilicho")
 from insilicho import run
 
 initial_config = {
@@ -105,29 +102,28 @@ def run_exp(
     return res, score(res)
 
 
-ranges = {
-    "batch_glc": (0, 300, 45, "mM", "starting glucose conc. in batch media"),
-    "batch_gln": (0, 50, 5.7, "mM", "starting glutamine conc. in batch media"),
-    "batch_pH": (6.7, 7.4, 6.90, "-", "controlled pH value"),
-    "feed_glc": (50, 300, 140, "mM", "glucose conc. in feed"),
-    "feed_gln": (0, 50, 5, "mM", "glutamine conc. in feed"),
-    "prod_start_eft": (
-        24,
-        24*10,
-        72,
-        "hrs",
-        "time marking shift from batch to production",
-    ),
-    "batch_temp": (33, 40, 37, "degC", "T of batch phase"),
-    "prod_temp": (33, 40, 37, "degC", "T of production phase"),
-    "day_0_feed": (0, 50.0, 0.0, "mL/day", "feed in mL/day"),
-    "day_1_feed": (0, 50.0, 0.0, "mL/day", "feed in mL/day"),
-    "day_2_feed": (0, 50.0, 0.0, "mL/day", "feed in mL/day"),
-    "day_3_feed": (0, 50.0, 0.0, "mL/day", "feed in mL/day"),
-    "day_4_feed": (0, 50.0, 1.750, "mL/day", "feed in mL/day"),
-    "day_5_feed": (0, 50.0, 1.750, "mL/day", "feed in mL/day"),
-    "day_6_feed": (0, 50.0, 0.0, "mL/day", "feed in mL/day"),
-    "day_7_feed": (0, 50.0, 0.0, "mL/day", "feed in mL/day"),
-    "day_8_feed": (0, 50.0, 0.0, "mL/day", "feed in mL/day"),
-    "day_9_feed": (0, 50.0, 0.0, "mL/day", "feed in mL/day"),
-}
+def ranges(n_days=10):
+    ret = {
+        "batch_glc": (0, 300, 45, "mM", "starting glucose conc. in batch media"),
+        "batch_gln": (0, 50, 5.7, "mM", "starting glutamine conc. in batch media"),
+        "batch_pH": (6.7, 7.4, 6.90, "-", "controlled pH value"),
+        "feed_glc": (50, 300, 140, "mM", "glucose conc. in feed"),
+        "feed_gln": (0, 50, 5, "mM", "glutamine conc. in feed"),
+        "prod_start_eft": (
+            24,
+            24 * n_days,
+            24 * min(3, n_days),
+            "hrs",
+            "time marking shift from batch to production",
+        ),
+        "batch_temp": (33, 40, 37, "degC", "T of batch phase"),
+        "prod_temp": (33, 40, 37, "degC", "T of production phase"),
+    }
+
+    for d in range(n_days):
+        flow = 0.0
+        if d in [4, 5]:
+            flow = 1.750  # mL/day for day 4,5 default
+        ret["day_" + str(d) + "_feed"] = (0, 50.0, flow, "mL/day", "feed in mL/day")
+
+    return ret

@@ -1,21 +1,16 @@
-import sys
-
 import altair as alt
 import numpy as np
 import pandas as pd
 import streamlit as st
 
-sys.path.append("insilicho")
 from insilicho import run
-from exp_def import initial_config, ranges, run_exp
+from exp_def import ranges, run_exp
 
 pd.options.mode.chained_assignment = None  # default='warn'
 
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide", page_title="Insilicho Explorer")
 
 with st.sidebar:
-    st.title("Insilicho - Model Explorer")
-
     with st.expander(
         "Experiment Data",
         expanded=False,
@@ -64,20 +59,21 @@ with st.sidebar:
 
     with st.expander("Control", expanded=False):
         sliders = {}
-        for key in ranges.keys():
-            if ranges[key][1] < 0.01:
+        ranged_params = ranges(Ndays)
+        for key, vals in ranged_params.items():
+            if vals[1] < 0.01:
                 step = 1e-4
             else:
                 step = 0.01
             try:
-                help_text = ranges[key][4]
+                help_text = vals[4]
             except IndexError:
                 help_text = ""
             sliders[key] = st.slider(
-                key + "(" + ranges[key][3] + ")",
-                min_value=float(ranges[key][0]),
-                max_value=float(ranges[key][1]),
-                value=float(ranges[key][2]),
+                key + "(" + vals[3] + ")",
+                min_value=float(vals[0]),
+                max_value=float(vals[1]),
+                value=float(vals[2]),
                 step=step,
                 format="%f",
                 help=help_text,
@@ -136,6 +132,17 @@ with st.sidebar:
             help="stoichiometric yield coefficient b/w lactate production and glucose consumption",
         )
 
+with st.expander("What does this app do?", expanded=True):
+    st.write("##### Simulates a Chinese Hamster Ovary (CHO) growth run in the cloud")
+    st.write(
+        "- Choose different parameters (model, control, feeding, initial conditions) from the sidebar to simulate a CHO growth experiment in a cloud bioreactor\n"
+        "- App currently supports constant feeding profiles only (stay tuned for updates!)\n"
+        "- Optionally, upload sampling data to see how your experiments line up to the model\n"
+        "- App source code at [this repo](https://github.com/culturerobotics/insilicho-streamlit#readme)\n"
+        "- Underlying model source code (Insilicho) and references [here](https://github.com/culturerobotics/insilicho#readme)\n"
+    )
+
+# -----------------------------------#
 # Convert feed into correct units
 for k, v in sliders.items():
     ks = k.split("_")
@@ -182,6 +189,7 @@ sampling_df = pd.DataFrame.from_dict(sampling_data)
 
 # Print titer
 st.text(f"Final Titer [mg/L]: {score:0.1f}")
+
 
 with st.expander("Model results", expanded=True):
     user_data = user_data or "example.csv"
