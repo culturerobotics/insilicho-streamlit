@@ -1,8 +1,9 @@
 import dataclasses
 
 import numpy as np
-from barebones import growth_model, parameters
 from scipy.integrate import odeint
+
+from insilicho import growth_model, parameters
 
 
 def solve(
@@ -54,5 +55,4 @@ def solve(
                 )
             )
         )
-    state_vars = np.array(state_vars, dtype=float)
-    return state_model, state_vars, info
+    return state_model, np.array(state_vars, dtype=float), info

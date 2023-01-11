@@ -5,8 +5,8 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-sys.path.append("barebones")
-from barebones import run
+sys.path.append("insilicho")
+from insilicho import run
 from exp_def import initial_config, ranges, run_exp
 
 pd.options.mode.chained_assignment = None  # default='warn'

@@ -1,13 +1,26 @@
+# mypy: disable-error-code=operator
+
 import numpy as np
-from barebones import chemistry, parameters
-from barebones.chemistry import Species, Thermodynamics
+
+from insilicho import chemistry, parameters
+from insilicho.chemistry import Species, Thermodynamics
 
 
 def exponential_dependence_around_optima(
-    x,
-    optima,
-    spread,
-):
+    x: float,
+    optima: float,
+    spread: float = 1.0,
+) -> float:
+    """Function that decays both side of an optimal value.
+
+    Args:
+        x (float): value of a variable.
+        optima (float): Optimal value for a variable.
+        spread (float, optional): Spread around the optimal, sets rate of decay. Defaults to 1.0.
+
+    Returns:
+        float: Number between 0 and 1 indicating distance from optima.
+    """
     return np.exp((x - optima) ** 2.0 / spread)
 
 

@@ -2,7 +2,8 @@ import dataclasses
 import typing
 
 import numpy as np
-from barebones import units
+
+from insilicho import units
 
 
 @dataclasses.dataclass

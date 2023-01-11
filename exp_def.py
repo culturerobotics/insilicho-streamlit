@@ -1,7 +1,7 @@
 import sys
 
-sys.path.append("barebones")
-from barebones import run
+sys.path.append("insilicho")
+from insilicho import run
 
 initial_config = {
     "parameters": {
