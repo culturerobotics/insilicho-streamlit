@@ -8,7 +8,7 @@ from exp_def import ranges, run_exp
 
 pd.options.mode.chained_assignment = None  # default='warn'
 
-st.set_page_config(layout="wide", page_title="Insilicho Explorer")
+st.set_page_config(layout="wide", page_title="InsiliCHO Explorer")
 
 with st.sidebar:
     with st.expander(
@@ -133,13 +133,15 @@ with st.sidebar:
         )
 
 with st.expander("What does this app do?", expanded=True):
-    st.write("##### Simulates a Chinese Hamster Ovary (CHO) growth run in the cloud")
     st.write(
-        "- Choose different parameters (model, control, feeding, initial conditions) from the sidebar to simulate a CHO growth experiment in a cloud bioreactor\n"
-        "- App currently supports constant feeding profiles only (stay tuned for updates!)\n"
+        "##### This app simulates the growth of [CHO cells](https://en.wikipedia.org/wiki/Chinese_hamster_ovary_cell) under varying conditions"
+    )
+    st.write(
+        "- Choose different parameters from the sidebar (cell model, reactor control, feeding, initial conditions) to simulate a CHO experiment in a cloud bioreactor\n"
+        "- This app currently supports constant feeding profiles only (stay tuned for updates!)\n"
         "- Optionally, upload sampling data to see how your experiments line up to the model\n"
         "- App source code at [this repo](https://github.com/culturerobotics/insilicho-streamlit#readme)\n"
-        "- Underlying model source code (Insilicho) and references [here](https://github.com/culturerobotics/insilicho#readme)\n"
+        "- Underlying model source code (InsiliCHO) and references [here](https://github.com/culturerobotics/insilicho#readme)\n"
     )
 
 # -----------------------------------#
