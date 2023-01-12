@@ -1,4 +1,4 @@
-Insilicho model explorer, with streamlit
+InsiliCHO model explorer, with streamlit
 
 ### Model
 https://github.com/culturerobotics/insilicho
@@ -7,9 +7,10 @@ https://github.com/culturerobotics/insilicho
 ### Cloud
 https://culturebio-insilicho.streamlit.app/
 
-### local setup
 
-use py 3.10
+### Local Setup
+
+Use py 3.10
 
 ```
 $ pip install virtualenv
@@ -19,7 +20,7 @@ $ pip install -r requirements.txt
 ```
 
 
-### local testing
+### Local Testing
 
 streamlit model explorer:
 
@@ -29,6 +30,6 @@ $ streamlit run explore.py
 ```
 
 
-### exp data for plotting
+### Experimental Data for Plotting
 
-A csv file, with appropriate headers. See example.csv
+Use a CSV file, with appropriate headers. See `example.csv`
