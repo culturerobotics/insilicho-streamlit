@@ -42,8 +42,8 @@ def run_exp(
         "feed_glc": 50,
         "feed_gln": 1,
         "prod_start_eft": 48,
-        "batch_temp": 36,
-        "prod_temp": 36,
+        "batch_temp": 36.4,
+        "prod_temp": 36.4,
         "day_0_feed": 0,
         "day_1_feed": 0,
         "day_2_feed": 0,
@@ -116,8 +116,8 @@ def ranges(n_days=10):
             "hrs",
             "time marking shift from batch to production",
         ),
-        "batch_temp": (33, 40, 37, "degC", "T of batch phase"),
-        "prod_temp": (33, 40, 37, "degC", "T of production phase"),
+        "batch_temp": (35, 38, 36.4, "degC", "T of batch phase"),
+        "prod_temp": (35, 38, 36.4, "degC", "T of production phase"),
     }
 
     for d in range(n_days):
