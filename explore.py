@@ -8,7 +8,7 @@ from exp_def import ranges, run_exp
 
 pd.options.mode.chained_assignment = None  # default='warn'
 
-st.set_page_config(layout="wide", page_title="Insilicho Explorer")
+st.set_page_config(layout="wide", page_title="InsiliCHO Explorer")
 
 with st.sidebar:
     with st.expander(
